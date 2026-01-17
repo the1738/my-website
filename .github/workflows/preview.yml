@@ -1,0 +1,38 @@
+name: Jekyll PR Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+
+      - name: Install Jekyll
+        run: |
+          gem install jekyll
+          gem install minima || true
+
+      - name: Build site
+        run: jekyll build --destination _site
+
+      - name: Add CNAME for previews
+        run: echo "previews.theotterway.club" > _site/CNAME
+
+      - name: Deploy to gh-pages (preview)
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          publish_branch: gh-pages
+          keep_files: true
