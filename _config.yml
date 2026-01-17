@@ -1,0 +1,5 @@
+title: "The Otter Way"
+description: "Showcase of my LinkedIn posts and personal articles"
+baseurl: ""        # leave empty because the site is at root
+url: "https://theotterway.club"  # your custom domain
+theme: minima       # optional starter theme

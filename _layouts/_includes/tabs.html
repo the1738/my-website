@@ -1,0 +1,27 @@
+<div class="tabs">
+  <button class="tab-btn" data-tab="linkedin">LinkedIn</button>
+  <button class="tab-btn" data-tab="native">Native Posts</button>
+  <button class="tab-btn" data-tab="archive">Archive</button>
+</div>
+
+<div class="tab-content" id="linkedin">
+  <!-- Example LinkedIn embed -->
+  <blockquote class="linkedin-post" data-id="postID"></blockquote>
+</div>
+
+<div class="tab-content" id="native" style="display:none;">
+  {% for post in site.posts %}
+    <article>
+      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+      <p>{{ post.excerpt }}</p>
+    </article>
+  {% endfor %}
+</div>
+
+<div class="tab-content" id="archive" style="display:none;">
+  <ul>
+    {% for post in site.posts %}
+      <li>{{ post.date | date: "%Y-%m-%d" }} - <a href="{{ post.url }}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
