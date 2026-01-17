@@ -1,5 +1,9 @@
 name: Jekyll PR Preview
 
+# Grant the workflow explicit write permission so it can push to branches
+permissions:
+  contents: write
+
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -12,6 +16,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -33,7 +39,9 @@ jobs:
       - name: Deploy to gh-pages (preview)
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Use the PAT stored in GH_PAGES_PAT as `personal_token` so the action
+          # authenticates as your user instead of github-actions[bot].
+          personal_token: ${{ secrets.GH_PAGES_PAT }}
           publish_dir: ./_site
           publish_branch: gh-pages
           keep_files: true
