@@ -18,13 +18,14 @@ jobs:
         with:
           ruby-version: '3.1'
 
-      - name: Install Jekyll
+      - name: Install dependencies
         run: |
-          gem install jekyll
-          gem install minima || true
+          gem install bundler
+          bundle config set --local path vendor/bundle
+          bundle install --jobs 4 --retry 3
 
       - name: Build site
-        run: jekyll build --destination _site
+        run: bundle exec jekyll build --destination _site
 
       - name: Add CNAME for previews
         run: echo "previews.theotterway.club" > _site/CNAME
